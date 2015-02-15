@@ -31,7 +31,7 @@ namespace HadoopUserManagement
 
         #region Flag
         [Option('f', "flag", Required = true,
-            HelpText = "add/delete.")]
+            HelpText = "{test/generate/add/remove} .")]
         public string Flag { get; set; }
 
         #endregion
@@ -61,7 +61,7 @@ namespace HadoopUserManagement
         public string Credential { get; set; }
 
         [Option('g', "group", DefaultValue = "",
-          HelpText = "Password for new login..")]
+          HelpText = "Group for the added/removed login.")]
         public string Group { get; set; }
 
         #endregion
@@ -79,11 +79,37 @@ namespace HadoopUserManagement
         [ParserState]
         public IParserState LastParserState { get; set; }
 
+        private string example_script = @"
+
+::Take the 1st, 2nd and 3rd command line arguments as the
+::server address, username and password for the managed remote machine.
+SET addr=%1
+SET username=%2
+SET password=%3
+
+::Test
+HadoopUserManagement.exe -f test -a %addr% -u %username% -p %password%
+
+::Add and remove single user
+HadoopUserManagement.exe -f add -a %addr% -u %username% -p %password% -c fayak:fazal -g toyota
+HadoopUserManagement.exe -f remove -a %addr% -u %username% -p %password% -f remove -l fayak
+
+::Generate
+HadoopUserManagement.exe -f generate -n 5 -x team -g subaru -o example_users.txt
+
+::Add and remove batch of users
+HadoopUserManagement.exe -f add -a %addr% -u %username% -p %password% -b example_users.txt
+HadoopUserManagement.exe -f remove -a %addr% -u %username% -p %password% -b example_users.txt
+";
+
         [HelpOption]
         public string GetUsage()
         {
             string usage = HelpText.AutoBuild(this,
               (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+
+            usage += "\nExample script:\n";
+            usage +=  this.example_script;
             return usage;
         }
 
