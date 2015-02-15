@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using HadoopUserManagement.Tasks;
 
 namespace HadoopUserManagement
 {
@@ -18,7 +19,7 @@ namespace HadoopUserManagement
                  * Validations *
                  ***************/
                 var available_flags = new HashSet<string>(
-                    new string[] { "add", "remove", "deploy", "test", "generate" }
+                    new string[] { "add", "remove", "list", "test", "generate" } //"deploy"
                 );
 
                 if (!available_flags.Contains(options.Flag.ToLower()))
@@ -59,7 +60,6 @@ namespace HadoopUserManagement
 
                 }
 
-
                 var connection = new Connection(options.Address,
                     options.Username,
                     options.Password,
@@ -78,6 +78,13 @@ namespace HadoopUserManagement
                         Console.Error.WriteLine("Connection test failed! Exiting...");
                         Environment.Exit(1);
                     }
+                }
+
+                if (flag.Equals("list"))
+                {
+                    var listTask = new ListUsers(connection);
+                    listTask.listUsers();
+                    return;
                 }
 
 

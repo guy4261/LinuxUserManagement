@@ -53,6 +53,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Tasks\AddBatchUsers.cs" />
     <Compile Include="Tasks\GenerateList.cs" />
+    <Compile Include="Tasks\ListUsers.cs" />
     <Compile Include="Tasks\RemoveBatchUsers.cs" />
     <Compile Include="Tasks\RemoveSingleUser.cs" />
     <Compile Include="Tasks\Deploy.cs" />
@@ -62,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="list_users.sh">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="test_script.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
