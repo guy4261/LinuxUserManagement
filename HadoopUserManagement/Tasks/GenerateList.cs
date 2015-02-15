@@ -1,28 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace HadoopUserManagement
 {
     class GenerateList : Task
     {
         private string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
 
+        HashSet<string> previously = new HashSet<string>();
+
         private string generate_password()
         {
+                        
+            int currentTimeMillis = DateTime.UtcNow.Millisecond;
+            var rnd = new Random(currentTimeMillis);
+            int allowedCharsLength = allowedChars.Length - 1;
+            
             string password = "";
-            var rnd = new Random();
-            for (int i = 0; i < PASSWORD_LENGTH; i++)
+            while (previously.Contains(password))
             {
-                password += allowedChars[rnd.Next(0, PASSWORD_LENGTH)];
+                password = "";
+                for (int i = 0; i < PASSWORD_LENGTH; i++)
+                {
+                    password += allowedChars[rnd.Next(0, allowedCharsLength)];
+                }
             }
+            previously.Add(password);
+
             return password;
         }
 
         public GenerateList()
             : base(null)
         {
-
+            previously.Add("");
         }
+
 
         private const int PASSWORD_LENGTH = 8;
         public void generate_list(int n,
