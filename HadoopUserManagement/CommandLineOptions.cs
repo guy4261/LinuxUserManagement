@@ -31,7 +31,7 @@ namespace HadoopUserManagement
 
         #region Flag
         [Option('f', "flag", Required = true,
-            HelpText = "{test/generate/add/remove} .")]
+            HelpText = "{test/list/generate/add/remove} .")]
         public string Flag { get; set; }
 
         #endregion
