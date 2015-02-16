@@ -13,6 +13,9 @@ namespace HadoopUserManagement
 
         private char[] spaces = null;
 
+        private ProtectedUsersFilter protectedUsersFilter =
+            new ProtectedUsersFilter();
+
         public RemoveBatchUsers(Connection conn)
             : base(conn)
         {
@@ -37,6 +40,12 @@ namespace HadoopUserManagement
                 string[] cells = _line.Split(delimiter);
                 string username = cells[0];
                 users.Add(username);
+            }
+
+            users = protectedUsersFilter.RemoveProtectedUsers(users);
+            if (users.Count == 0)
+            {
+                return -1;
             }
 
             string cmd = string.Format(@"for username in {0}

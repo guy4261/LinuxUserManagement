@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Commands\PlinkCommand.cs" />
     <Compile Include="Commands\PscpCommand.cs" />
+    <Compile Include="ProtectedUsersFilter.cs" />
     <Compile Include="Tasks\AddSingleUser.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="CommandLineOptions.cs" />

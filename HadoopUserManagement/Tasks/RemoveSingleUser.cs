@@ -7,6 +7,8 @@ namespace HadoopUserManagement
      */
     class RemoveSingleUser : Task
     {
+        ProtectedUsersFilter protectedUsersFilter = new ProtectedUsersFilter();
+
         public RemoveSingleUser(Connection conn)
             : base(conn)
         {
@@ -17,6 +19,11 @@ namespace HadoopUserManagement
          */
         public int remove_single_user(string username)
         {
+            if (protectedUsersFilter.IsProtectedUser(username))
+            {
+                return -1;
+            }
+
             var conn = this.connection;
             var delUser = new PlinkCommand(
                 string.Format("hdfs dfs -rm -r /user/{0};userdel {0}", username)
